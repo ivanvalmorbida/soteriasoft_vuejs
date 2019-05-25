@@ -1,0 +1,60 @@
+doctype html
+head
+  title teste
+  meta(charset='utf-8', name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui")
+
+  link(rel='icon', href='images/mielina.ico')
+  link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons')
+  link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.14/vuetify.min.css')
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.5.14/vuetify.min.js')
+
+#vue_app
+  v-app#inspire
+    v-data-table.elevation-1(:headers='headers', :items='issues', hide-actions='')
+      template(slot='items', slot-scope='issue')
+        td.text-xs-right {{ issue.item.codigo }}
+        td {{ issue.item.nome }}
+
+  br
+  br
+
+  //span(v-bind:title='message')
+      | Pare o mouse sobre mim e veja a dica interligada dinamicamente!
+
+  //table.table.table-bordered
+      tr(v-for="tes in teste")
+          td {{tes.codigo}}
+          td {{tes.nome}}
+
+
+  script.
+    var vue_app = new Vue({
+    el:"#vue_app",
+      data: {message: 'Você carregou esta página em ' + new Date().toLocaleString(), 
+      issues:[],  headers: [
+        {
+          text: 'Codigo',
+          align: 'issue.item.',
+          sortable: false,
+          value: 'codigo'
+        },
+        { text: 'Nome', value: 'nome' }],
+        
+        teste:[]},
+       
+      created: function() {
+        this.$http.get("/dados/cis_ativos")
+        .then((response)=>{
+          this.issues=response.body.cis
+        })
+
+        axios.get('/dados/cis_ativos')
+        .then(function (response) {
+          vue_app.teste = response.data.cis
+        })
+      }
+    })

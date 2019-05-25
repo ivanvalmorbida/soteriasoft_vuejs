@@ -1,0 +1,11 @@
+.md-autocomplete-suggestions-container{  
+    z-index:100000 !important; 
+}
+#btLocalizarExe {
+    height: 20px;
+}
+
+a { 
+    cursor: pointer; 
+    color: #0000ff;
+}

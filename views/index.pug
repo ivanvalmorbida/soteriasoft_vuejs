@@ -1,0 +1,55 @@
+extends layout
+
+block cabecal
+  link(rel='stylesheet', href='css/index.css')
+  script(src='js/index.js')
+  title #{empresa}
+
+block content
+  div(ng-controller='Soteriasoft.Control as ctrl', ng-app='Soteriasoft', style='margin: 0px 20px 0px 10px')
+    div(flex='', layout-gt-sm='row', layout-align='center center') 
+      h2 #{empresa}
+
+    md-list(flex='', layout-gt-sm='row', layout-align='center center')
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href='cliente_imovel', target="_blank", title="Clientes Imóveis")
+            p
+            md-icon(md-svg-icon="img/cliente-imovel.svg")
+            p
+            | Clientes
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href='pessoa', target="_blank", title="Pessoas")
+            p
+            md-icon(md-svg-icon="img/people.svg")
+            p
+            | Pessoas                
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href="imovel", target="_blank", title="Imóveis")
+            p
+            md-icon(md-svg-icon="img/imovel.svg") 
+            p
+            | Imóveis          
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href="imovel_busca", target="_blank", title="Buscar Imóveis")
+            p
+            md-icon(md-svg-icon="img/search2.svg") 
+            p
+            | Buscar
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href="cep", target="_blank", title="CEPs")
+            p
+            md-icon(md-svg-icon="img/cep.svg") 
+            p
+            | CEPs
+      md-list-item
+        div
+          md-button.md-raised.md-grid-item-content(href="usuario", target="_blank", title="Usuários")
+            p
+            md-icon(md-svg-icon="img/usuario.svg") 
+            p
+            | Usuários                                    
