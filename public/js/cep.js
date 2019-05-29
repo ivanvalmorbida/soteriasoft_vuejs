@@ -1,3 +1,41 @@
+var vm = new Vue({
+  el: '#app',
+  data: function data() {
+      return {
+          rules: {
+              required: (value) => !!value || 'Este campo é requerido!'
+          }, 
+          valid: true, cep: null, cidade: null, uf: null, bairro_items: [], bairro: null,
+
+          lcidade: false,
+          icidade: [],
+          scidade: null,
+      };
+  },
+
+  watch: {
+    scidade(val) {
+        val && this.qcidade(val)
+    },
+  },
+
+  methods: {
+    qcidade(v) {
+      if (v.length > 2) {
+        this.lcidade = true
+        this.$http.post("/cidade/nome", {'str': v }).then((res) => {
+          this.lcidade = false
+          this.icidade = res.body
+        })
+      }
+    },
+  }
+
+});
+
+
+/*
+
 angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
 .controller('Soteriasoft.Control', function($http,$scope, $mdDialog) {
   function format(mask, number) {
@@ -199,4 +237,4 @@ angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
     })
   }
   $scope.Limpar()
-})
+})*/

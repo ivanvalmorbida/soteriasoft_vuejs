@@ -13,7 +13,8 @@ router.post('/cep/gravar', gravar)
 router.post('/cep/apagar', apagar)
 
 function index(req, res) {
-  auth.active_user(req, res, render_index)
+  //auth.active_user(req, res, render_index)
+  res.render('ceps')
 }
 
 function render_index(req, res) {
