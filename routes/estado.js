@@ -3,47 +3,47 @@ var router  = express.Router()
 var settings = require("../settings")
 var mysql   = require('mysql')
 
-router.get('/estado/estado_nome', estado_nome)
-router.get('/estado/estado_sigla', estado_sigla)
-router.get('/estado/estado_todos', estado_todos)
+router.post('/estado/nome', nome)
+router.post('/estado/sigla', sigla)
+router.post('/estado/todos', todos)
 
-function estado_todos(req, res) {
+function todos(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
 
   connection.connect()
   connection.query('SELECT * from tb_estado', function(err, rows, fields) {
     if (!err)
-      res.json({estado_todos: rows})
+      res.json(rows)
     else
       console.log('Error mensage: '+err)
   })
   connection.end()
 }
 
-function estado_nome(req, res) {
+function nome(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
-  var txt = req.query.txt
+  var txt = req.body.str
 
   connection.connect()
   connection.query("select codigo, sigla, nome from tb_estado"+
   " where nome like '"+txt+"%' order by nome LIMIT 20", function(err, rows) {
     if (!err)
-      return res.json(rows)
+      res.json(rows)
     else
       console.log('Error mensage: '+err)
   })
   connection.end()
 }
 
-function estado_sigla(req, res) {
+function sigla(req, res) {
   var connection = mysql.createConnection(settings.dbConect);
-  var txt = req.query.txt
+  var txt = req.body.str
 
   connection.connect()
   connection.query("select codigo, sigla from tb_estado"+
   " where sigla like '"+txt+"%' order by sigla", function(err, rows) {
     if (!err)
-      return res.json(rows)
+      res.json(rows)
     else
       console.log('Error mensage: '+err)
   })

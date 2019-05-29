@@ -23,8 +23,8 @@ function nome(req, res) {
 
 function uf_nome(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
-  var txt = req.query.txt
-  var est = req.query.est
+  var txt = req.body.str
+  var est = req.body.est
 
   connection.connect()
   connection.query("select ci.codigo, ci.nome from tb_cidade as ci"+

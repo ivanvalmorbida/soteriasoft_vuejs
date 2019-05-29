@@ -3,10 +3,10 @@ var router  = express.Router()
 var settings = require("../settings")
 var mysql   = require('mysql')
 
-router.get('/endereco/endereco_nome', endereco_nome)
-router.get('/endereco/endereco_cidade_nome', endereco_cidade_nome)
+router.post('/endereco/nome', nome)
+router.post('/endereco/cidade_nome', cidade_nome)
 
-function endereco_todos(req, res) {
+function todos(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
 
   connection.connect()
@@ -19,7 +19,7 @@ function endereco_todos(req, res) {
   connection.end()
 }
 
-function endereco_cidade(req, res) {
+function cidade(req, res) {
   var connection = mysql.createConnection(settings.dbConect);
   var data = req.body
 
@@ -36,9 +36,9 @@ function endereco_cidade(req, res) {
   connection.end()
 }
 
-function endereco_nome(req, res) {
+function nome(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
-  var txt = req.query.txt
+  var txt = req.body.str
 
   connection.connect()
   connection.query("select codigo,nome from tb_endereco Where nome like '%"+
@@ -51,11 +51,11 @@ function endereco_nome(req, res) {
   connection.end()
 }
 
-function endereco_cidade_nome(req, res) {
+function cidade_nome(req, res) {
   var connection = mysql.createConnection(settings.dbConect)
-  var txt = req.query.txt
-  var est = req.query.est
-  var cid = req.query.cid
+  var txt = req.body.str
+  var est = req.body.est
+  var cid = req.body.cid
 
   connection.connect()
   connection.query("select en.codigo, en.nome from tb_endereco as en"+

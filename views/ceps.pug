@@ -11,16 +11,21 @@ head
         h1.display-1 Cadastro de Código Postal
 
         v-layout(row='' wrap='')
-          v-flex(d-flex='' xs12='' sm4='' md4='')
+          v-flex(d-flex='' xs12='' sm3='' md3='')
             v-text-field(mask='##.###-###' v-model='cep' label='CEP' :rules='[rules.required]' required='' @change='BuscarCEP()')
-          v-flex(d-flex='' xs12='' sm8='' md8='')
+          v-flex(d-flex='' xs12='' sm3='' md3='')
+            v-select(v-model='uf' label='UF' :items='iuf' item-text="nome" item-value="codigo")
+          v-flex(d-flex='' xs12='' sm6='' md6='')
             v-autocomplete(:loading='lcidade' :items='icidade' item-text="nome" item-value="codigo" :search-input.sync='scidade' v-model='cidade' label='Cidade' return-object='')
 
         v-layout(row='' wrap='')        
-          v-flex(d-flex='' xs12='' sm4='' md4='')
-            v-text-field(v-model='uf' label='UF' :rules='[rules.required]' required='')
-          v-flex(d-flex='' xs12='' sm8='' md8='')
+          v-flex(d-flex='' xs12='' sm5='' md5='')
             v-combobox(:items='bairro_items' v-model='bairro' label='Bairro')
+          v-flex(d-flex='' xs12='' sm7='' md7='')
+            v-autocomplete(:loading='lendereco' :items='iendereco' item-text="nome" item-value="codigo" :search-input.sync='sendereco' v-model='endereco' label='Endereço' return-object='')
+        v-layout(row='' wrap='')
+          v-flex(d-flex='' xs12='' sm12='' md12='')
+            v-text-field(v-model='complemento' label='Complemento')
 
 
 script(src='https://unpkg.com/jquery/dist/jquery.min.js')

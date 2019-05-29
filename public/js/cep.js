@@ -6,10 +6,8 @@ var vm = new Vue({
               required: (value) => !!value || 'Este campo é requerido!'
           }, 
           valid: true, cep: null, cidade: null, uf: null, bairro_items: [], bairro: null,
-
-          lcidade: false,
-          icidade: [],
-          scidade: null,
+          lcidade: false, icidade: [], scidade: null, iuf: [], uf: null, complemento: null, 
+          lendereco: false, iendereco: [], sendereco: null, endereco: null
       };
   },
 
@@ -17,20 +15,53 @@ var vm = new Vue({
     scidade(val) {
         val && this.qcidade(val)
     },
+    
+    sbairro(val) {
+      val && this.qbairro(val)
+    },    
+    
+    sendereco(val) {
+      val && this.qendereco(val)
+    },    
   },
 
   methods: {
     qcidade(v) {
       if (v.length > 2) {
         this.lcidade = true
-        this.$http.post("/cidade/nome", {'str': v }).then((res) => {
+        this.$http.post("/cidade/nome", {'str': v}).then((res) => {
           this.lcidade = false
           this.icidade = res.body
         })
       }
     },
-  }
 
+    qbairro(v) {
+      if (v.length > 2) {
+        this.lbairro = true
+        this.$http.post("/bairro/nome", {'str': v}).then((res) => {
+          this.lbairro = false
+          this.ibairro = res.body
+        })
+      }
+    },
+
+    qendereco(v) {
+      if (v.length > 2) {
+        this.lendereco = true
+        this.$http.post("/endereco/nome", {'str': v}).then((res) => {
+          this.lendereco = false
+          this.iendereco = res.body
+        })
+      }
+    },
+  },
+
+  created() {
+    this.$http.post("/estado/todos").then((res) => {
+        this.iuf = res.body
+    })  
+  },
 });
 
 
