@@ -5,7 +5,8 @@ var vm = new Vue({
           rules: {
               required: (value) => !!value || 'Este campo é requerido!'
           }, 
-          valid: true, cep: null, cidade: null, uf: null, bairro_items: [], bairro: null,
+          valid: true, cep: null, cidade: null, uf: null,
+          bairro: null, lbairro: false, ibairro: [], sbairro: null,
           lcidade: false, icidade: [], scidade: null, iuf: [], uf: null, complemento: null, 
           lendereco: false, iendereco: [], sendereco: null, endereco: null
       };
@@ -27,9 +28,9 @@ var vm = new Vue({
 
   methods: {
     qcidade(v) {
-      if (v.length > 2) {
+      if (v.length > 2 && this.uf>0) {
         this.lcidade = true
-        this.$http.post("/cidade/nome", {'str': v}).then((res) => {
+        this.$http.post("/cidade/uf_nome", {'est': this.uf, 'str': v}).then((res) => {
           this.lcidade = false
           this.icidade = res.body
         })
@@ -37,9 +38,9 @@ var vm = new Vue({
     },
 
     qbairro(v) {
-      if (v.length > 2) {
+      if (v.length > 2 && this.cidade>0) {
         this.lbairro = true
-        this.$http.post("/bairro/nome", {'str': v}).then((res) => {
+        this.$http.post("/bairro/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
           this.lbairro = false
           this.ibairro = res.body
         })
@@ -47,9 +48,9 @@ var vm = new Vue({
     },
 
     qendereco(v) {
-      if (v.length > 2) {
+      if (v.length > 2 && this.cidade>0) {
         this.lendereco = true
-        this.$http.post("/endereco/nome", {'str': v}).then((res) => {
+        this.$http.post("/endereco/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
           this.lendereco = false
           this.iendereco = res.body
         })

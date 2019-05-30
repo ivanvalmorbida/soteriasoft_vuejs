@@ -60,7 +60,7 @@ function cidade_nome(req, res) {
   connection.connect()
   connection.query("select en.codigo, en.nome from tb_endereco as en"+
   " where en.codigo in(select endereco from tb_cep where estado=? and cidade=?)"+
-  " and en.nome like '"+txt+"%' order by en.nome LIMIT 20", 
+  " and en.nome like '%"+txt+"%' order by en.nome LIMIT 20", 
   [est, cid], function(err, rows) {
     if (!err)
       return res.json(rows)
