@@ -8,7 +8,7 @@ var vm = new Vue({
           valid: true, cep: null, cidade: null, uf: null,
           bairro: null, lbairro: false, ibairro: [], sbairro: null,
           lcidade: false, icidade: [], scidade: null, iuf: [], uf: null, complemento: null, 
-          lendereco: false, iendereco: [], sendereco: null, endereco: null
+          lendereco: false, iendereco: [], sendereco: null, endereco: null, dialog: false,
       };
   },
 
@@ -56,6 +56,38 @@ var vm = new Vue({
         })
       }
     },
+
+    buscar_cep() {
+      if (this.cep.length==8){
+        this.$http.post('/cep/cep', {cep: this.cep}).then((res) => {
+          if (res.body.length>0){
+            this.complemento  = res.body[0].complemento
+            this.uf           = res.body[0].estado
+            this.icidade      = {codigo: res.body[0].cidade, nome: res.body[0].cidade_}
+            this.cidade       = res.body[0].cidade      
+            this.ibairro      = {codigo: res.body[0].bairro, nome: res.body[0].bairro_}
+            this.bairro       = res.body[0].bairro
+            this.iendereco    = {codigo: res.body[0].endereco, nome: res.body[0].endereco_}
+            this.endereco     = res.body[0].endereco
+          }
+          else{
+            this.limpar(false)
+          }
+        }) 
+      }        
+    },
+
+    limpar(cep) {
+      if (cep==true){this.cep = null}
+      this.complemento  = null
+      this.uf           = null
+      this.icidade      = []
+      this.cidade       = null
+      this.ibairro      = []
+      this.bairro       = null
+      this.iendereco    = []
+      this.endereco     = null
+    }
   },
 
   created() {
@@ -76,34 +108,6 @@ angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
       r += mask.charAt(im)=='#' ? s.charAt(is++) : mask.charAt(im)
     }
     return r
-  }
-
-  $scope.Limpar = function(booCep) {
-    if(booCep==true){$scope.cep = ''}
-    $scope.complemento  = ''
-    $scope.estado     = null
-    $scope.cidade     = null        
-    $scope.bairro     = null
-    $scope.endereco   = null        
-  }
-  
-  $scope.BuscarCEP = function() {
-    if ($scope.cep.length==9){
-      $http.post('/cep/cep', {cep: $scope.cep}).
-      success(function (data, status, headers, config) {
-        if (data.dados.length>0){
-          $scope.complemento  = data.dados[0].complemento
-          $scope.estado     = {codigo: data.dados[0].estado, nome: data.dados[0].estado_}
-          $scope.cidade     = {codigo: data.dados[0].cidade, nome: data.dados[0].cidade_}        
-          $scope.bairro     = {codigo: data.dados[0].bairro, nome: data.dados[0].bairro_}
-          $scope.endereco   = {codigo: data.dados[0].endereco, nome: data.dados[0].endereco_}
-        }else{
-          $scope.Limpar(false)
-        }
-      }).error(function (data, status, headers, config) {
-        //
-      }) 
-    }        
   }
 
   $scope.Gravar = function() {

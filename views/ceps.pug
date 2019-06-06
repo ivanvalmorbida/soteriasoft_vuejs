@@ -12,7 +12,7 @@ head
 
         v-layout(row='' wrap='')
           v-flex(d-flex='' xs12='' sm3='' md3='')
-            v-text-field(mask='##.###-###' v-model='cep' label='CEP' :rules='[rules.required]' required='' @change='BuscarCEP()')
+            v-text-field(mask='##.###-###' v-model='cep' label='CEP' :rules='[rules.required]' required='' @change='buscar_cep')
           v-flex(d-flex='' xs12='' sm3='' md3='')
             v-select(v-model='uf' label='UF' :items='iuf' item-text="nome" item-value="codigo")
           v-flex(d-flex='' xs12='' sm6='' md6='')
@@ -27,9 +27,36 @@ head
           v-flex(d-flex='' xs12='' sm12='' md12='')
             v-text-field(v-model='complemento' label='Complemento')
 
+      div
+        v-btn(@click='limpar(true)')
+          v-icon(left dark) note_add
+          | Novo
+
+        v-btn(color="success") 
+          v-icon(left dark) cloud_upload
+          | Gravar
+
+        v-dialog(v-model='dialog' persistent='' width='500')
+          template(v-slot:activator='{ on }')
+            v-btn(color="error" v-on='on') 
+              v-icon(left dark) delete
+              |Apagar
+          v-card
+            v-card-title.headline.red.lighten-2 Exclusão de registro
+            v-card-text
+              | Você confirma a exclusão permanete do registro atual?
+            v-card-actions
+              v-spacer
+              v-btn(color='green darken-1' flat='' @click='dialog = false') Cancelar
+              v-btn(color='red darken-1' flat='' @click='dialog = false') Confirmar
+
+        v-btn(color="info")
+          v-icon(left dark) search
+          | Localizar
+      br
+      br
 
 script(src='https://unpkg.com/jquery/dist/jquery.min.js')
-//script(src='https://unpkg.com/babel-polyfill/dist/polyfill.min.js')
 script(src='https://unpkg.com/vue/dist/vue.min.js')
 script(src='https://unpkg.com/vuetify/dist/vuetify.min.js')
 script(src='https://unpkg.com/vue-resource/dist/vue-resource.min.js')

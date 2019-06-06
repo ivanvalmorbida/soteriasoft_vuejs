@@ -91,7 +91,7 @@ function cep(req, res) {
   ' from tb_cep as c where c.cep=?;', [data.cep], 
   function(err, rows) {
     if (!err)
-      res.json({dados: rows})      
+      res.json(rows)      
     else
       console.log('Error mensage: '+err)
   })
