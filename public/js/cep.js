@@ -1,3 +1,5 @@
+import xxx from "./components/x.js"
+
 var vm = new Vue({
   el: '#app',
   data: function data() {
@@ -5,11 +7,15 @@ var vm = new Vue({
           rules: {
               required: (value) => !!value || 'Este campo é requerido!'
           }, 
-          valid: true, cep: null, cidade: null, uf: null,
+          valid: true, cep: null, cidade: null, uf: null, count: 0,
           bairro: null, lbairro: false, ibairro: [], sbairro: null,
           lcidade: false, icidade: [], scidade: null, iuf: [], uf: null, complemento: null, 
           lendereco: false, iendereco: [], sendereco: null, endereco: null, dialog: false,
       };
+  },
+  components: {
+    xxx
+    //'my-component': httpVueLoader('components/my-component.vue')
   },
 
   watch: {

@@ -17,7 +17,6 @@ head
             v-select(v-model='uf' label='UF' :items='iuf' item-text="nome" item-value="codigo")
           v-flex(d-flex='' xs12='' sm6='' md6='')
             v-autocomplete(:loading='lcidade' :items='icidade' item-text="nome" item-value="codigo" :search-input.sync='scidade' v-model='cidade' label='Cidade')
-
         v-layout(row='' wrap='')        
           v-flex(d-flex='' xs12='' sm5='' md5='')
             v-autocomplete(:loading='lbairro' :items='ibairro' item-text="nome" item-value="codigo" :search-input.sync='sbairro' v-model='bairro' label='Bairro')
@@ -28,6 +27,7 @@ head
             v-text-field(v-model='complemento' label='Complemento')
 
       div
+
         v-btn(@click='limpar(true)')
           v-icon(left dark) note_add
           | Novo
@@ -55,7 +55,6 @@ head
           | Localizar
       br
       br
-
 script(src='https://unpkg.com/jquery/dist/jquery.min.js')
 script(src='https://unpkg.com/vue/dist/vue.min.js')
 script(src='https://unpkg.com/vuetify/dist/vuetify.min.js')

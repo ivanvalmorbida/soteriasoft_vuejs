@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Código Postal</title>
+    <link rel="stylesheet prefetch"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet prefetch" href="https://unpkg.com/vuetify/dist/vuetify.min.css">
+</head>
+<div id="app" style="padding: 0px 20px 0px 20px;">
+    <v-form ref="form" v-model="valid" lazy-validation="">
+        <v-app id="inspire">
+            <v-container fluid="" grid-list-md="">
+                <h1 class="display-1">Cadastro de Código Postal</h1>
+                <v-layout row="" wrap="">
+                    <v-flex d-flex="" xs12="" sm3="" md3="">
+                        <v-text-field mask="##.###-###" v-model="cep" label="CEP" :rules="[rules.required]" required=""
+                            @change="buscar_cep"></v-text-field>
+                    </v-flex>
+                    <v-flex d-flex="" xs12="" sm3="" md3="">
+                        <v-select v-model="uf" label="UF" :items="iuf" item-text="nome" item-value="codigo"></v-select>
+                    </v-flex>
+                    <v-flex d-flex="" xs12="" sm6="" md6="">
+                        <v-autocomplete :loading="lcidade" :items="icidade" item-text="nome" item-value="codigo"
+                            :search-input.sync="scidade" v-model="cidade" label="Cidade"></v-autocomplete>
+                    </v-flex>
+                </v-layout>
+                <v-layout row="" wrap="">
+                    <v-flex d-flex="" xs12="" sm5="" md5="">
+                        <v-autocomplete :loading="lbairro" :items="ibairro" item-text="nome" item-value="codigo"
+                            :search-input.sync="sbairro" v-model="bairro" label="Bairro"></v-autocomplete>
+                    </v-flex>
+                    <v-flex d-flex="" xs12="" sm7="" md7="">
+                        <v-autocomplete :loading="lendereco" :items="iendereco" item-text="nome" item-value="codigo"
+                            :search-input.sync="sendereco" v-model="endereco" label="Endereço"></v-autocomplete>
+                    </v-flex>
+                </v-layout>
+                <v-layout row="" wrap="">
+                    <v-flex d-flex="" xs12="" sm12="" md12="">
+                        <v-text-field v-model="complemento" label="Complemento"></v-text-field>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+            <div>
+                <v-btn @click="limpar(true)">
+                    <v-icon left dark>note_add</v-icon>Novo
+                </v-btn>
+                <v-btn color="success">
+                    <v-icon left dark>cloud_upload</v-icon>Gravar
+                </v-btn>
+                <v-dialog v-model="dialog" persistent="" width="500"><template v-slot:activator="{ on }">
+                        <v-btn color="error" v-on="on">
+                            <v-icon left dark>delete</v-icon>Apagar
+                        </v-btn>
+                    </template>
+                    <v-card>
+                        <v-card-title class="headline red lighten-2">Exclusão de registro</v-card-title>
+                        <v-card-text>Você confirma a exclusão permanete do registro atual?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="green darken-1" flat="" @click="dialog = false">Cancelar</v-btn>
+                            <v-btn color="red darken-1" flat="" @click="dialog = false">Confirmar</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <v-btn color="info">
+                    <v-icon left dark>search</v-icon>Localizar
+                </v-btn>
+            </div><br><br>
+        </v-app>
+    </v-form>
+    <xxx></xxx>
+</div>
+
+<script src="https://unpkg.com/jquery"></script>
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuetify"></script>
+<script src="https://unpkg.com/vue-resource"></script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script type="module" src="js/cep.js"></script>
+<!-- <Ivan >    
+
+        <my-component></my-component>
+
+<script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vuetify/dist/vuetify.min.js"></script>
+<script src="https://unpkg.com/vue-resource/dist/vue-resource.min.js"></script>
+<script src="https://unpkg.com/http-vue-loader"></script>
+<script src="js/cep.js"></script>
+ -->
