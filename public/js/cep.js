@@ -1,4 +1,4 @@
-import xxx from "./components/x.js"
+import cidade from "./components/cidade.js"
 
 var vm = new Vue({
   el: '#app',
@@ -14,8 +14,7 @@ var vm = new Vue({
       };
   },
   components: {
-    xxx
-    //'my-component': httpVueLoader('components/my-component.vue')
+    cidade,
   },
 
   watch: {
