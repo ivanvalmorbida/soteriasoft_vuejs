@@ -1,4 +1,4 @@
-import cidade from "./components/cidade.js"
+import ac_cidade from "./components/ac_cidade.js"
 
 var vm = new Vue({
   el: '#app',
@@ -14,7 +14,7 @@ var vm = new Vue({
       };
   },
   components: {
-    cidade,
+    ac_cidade,
   },
 
   watch: {
