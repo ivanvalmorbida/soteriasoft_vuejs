@@ -1,4 +1,5 @@
 import ac_cidade from "./components/ac_cidade.js"
+import s_uf from "./components/s_uf.js"
 
 var vm = new Vue({
   el: '#app',
@@ -7,21 +8,17 @@ var vm = new Vue({
           rules: {
               required: (value) => !!value || 'Este campo é requerido!'
           }, 
-          valid: true, cep: null, cidade: null, uf: null, count: 0,
-          bairro: null, lbairro: false, ibairro: [], sbairro: null,
-          lcidade: false, icidade: [], scidade: null, iuf: [], uf: null, complemento: null, 
-          lendereco: false, iendereco: [], sendereco: null, endereco: null, dialog: false,
+          valid: true, cep: null, count: 0, bairro: null, lbairro: false, ibairro: [], sbairro: null,
+          iuf: [], uf: null, complemento: null, lendereco: false, iendereco: [], sendereco: null, 
+          endereco: null, dialog: false,
       };
   },
   components: {
     ac_cidade,
+    s_uf,
   },
 
-  watch: {
-    scidade(val) {
-        val && this.qcidade(val)
-    },
-    
+  watch: {  
     sbairro(val) {
       val && this.qbairro(val)
     },    
@@ -32,14 +29,8 @@ var vm = new Vue({
   },
 
   methods: {
-    qcidade(v) {
-      if (v.length > 2 && this.uf>0) {
-        this.lcidade = true
-        this.$http.post("/cidade/uf_nome", {'est': this.uf, 'str': v}).then((res) => {
-          this.lcidade = false
-          this.icidade = res.body
-        })
-      }
+    uf_change() {
+      this.$refs.ac_cidade.uf = this.$refs.s_uf.uf 
     },
 
     qbairro(v) {
@@ -68,8 +59,8 @@ var vm = new Vue({
           if (res.body.length>0){
             this.complemento  = res.body[0].complemento
             this.uf           = res.body[0].estado
-            this.icidade      = {codigo: res.body[0].cidade, nome: res.body[0].cidade_}
-            this.cidade       = res.body[0].cidade      
+            this.$refs.ac_cidade.icidade      = {codigo: res.body[0].cidade, nome: res.body[0].cidade_}
+            this.$refs.ac_cidade.cidade       = res.body[0].cidade      
             this.ibairro      = {codigo: res.body[0].bairro, nome: res.body[0].bairro_}
             this.bairro       = res.body[0].bairro
             this.iendereco    = {codigo: res.body[0].endereco, nome: res.body[0].endereco_}
@@ -86,8 +77,8 @@ var vm = new Vue({
       if (cep==true){this.cep = null}
       this.complemento  = null
       this.uf           = null
-      this.icidade      = []
-      this.cidade       = null
+      this.$refs.ac_cidade.icidade      = []
+      this.$refs.ac_cidade.cidade       = null
       this.ibairro      = []
       this.bairro       = null
       this.iendereco    = []

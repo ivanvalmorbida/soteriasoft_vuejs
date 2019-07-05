@@ -1,8 +1,4 @@
 export default {
-  props: {
-    uf: String
-  },
-
   template: ` 
   <v-autocomplete :loading="lcidade" :items="icidade" item-text="nome" item-value="codigo"
   :search-input.sync="scidade" v-model="cidade" label="Cidade"></v-autocomplete>
@@ -10,11 +6,8 @@ export default {
 
   data: function data() {
     return {
-      rules: {
-        required: (value) => !!value || 'Este campo é requerido!'
-      },
-      cidade: null, lcidade: false, icidade: [], scidade: null,
-    };
+      cidade: null, lcidade: false, icidade: [], scidade: null, uf: 24
+    }
   },
   
   watch: {

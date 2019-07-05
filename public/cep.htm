@@ -18,11 +18,10 @@
                             @change="buscar_cep"></v-text-field>
                     </v-flex>
                     <v-flex d-flex="" xs12="" sm3="" md3="">
-                        <v-select v-model="uf" label="UF" :items="iuf" item-text="nome" item-value="codigo"></v-select>
+                        <s_uf ref="s_uf" @change="uf_change()"></s-uf>
                     </v-flex>
                     <v-flex d-flex="" xs12="" sm6="" md6="">
-                        <v-autocomplete :loading="lcidade" :items="icidade" item-text="nome" item-value="codigo"
-                            :search-input.sync="scidade" v-model="cidade" label="Cidade"></v-autocomplete>
+                        <ac_cidade ref="ac_cidade"></ac_cidade>
                     </v-flex>
                 </v-layout>
                 <v-layout row="" wrap="">
@@ -69,7 +68,6 @@
             </div><br><br>
         </v-app>
     </v-form>
-    <ac_cidade></ac_cidade>
 </div>
 
 <script src="https://unpkg.com/jquery"></script>
