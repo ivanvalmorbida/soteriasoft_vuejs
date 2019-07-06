@@ -14,6 +14,10 @@ export default {
     scidade(val) {
       val && this.qcidade(val)
     },
+
+    cidade(){
+      this.$emit('change')
+    }
   },  
     
   methods: {

@@ -1,5 +1,6 @@
 import ac_cidade from "./components/ac_cidade.js"
 import s_uf from "./components/s_uf.js"
+import ac_bairro from "./components/ac_bairro.js"
 
 var vm = new Vue({
   el: '#app',
@@ -8,49 +9,27 @@ var vm = new Vue({
           rules: {
               required: (value) => !!value || 'Este campo é requerido!'
           }, 
-          valid: true, cep: null, count: 0, bairro: null, lbairro: false, ibairro: [], sbairro: null,
-          iuf: [], uf: null, complemento: null, lendereco: false, iendereco: [], sendereco: null, 
-          endereco: null, dialog: false,
+          valid: true, cep: null, count: 0, complemento: null, dialog: false,
       };
   },
   components: {
-    ac_cidade,
     s_uf,
+    ac_cidade,
+    ac_bairro,
   },
 
-  watch: {  
-    sbairro(val) {
-      val && this.qbairro(val)
-    },    
-    
-    sendereco(val) {
-      val && this.qendereco(val)
-    },    
+  watch: {
+ 
   },
 
   methods: {
     uf_change() {
       this.$refs.ac_cidade.uf = this.$refs.s_uf.uf 
     },
-
-    qbairro(v) {
-      if (v.length > 2 && this.cidade>0) {
-        this.lbairro = true
-        this.$http.post("/bairro/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
-          this.lbairro = false
-          this.ibairro = res.body
-        })
-      }
-    },
-
-    qendereco(v) {
-      if (v.length > 2 && this.cidade>0) {
-        this.lendereco = true
-        this.$http.post("/endereco/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
-          this.lendereco = false
-          this.iendereco = res.body
-        })
-      }
+    
+    cidade_change() {
+      this.$refs.ac_bairro.uf = this.$refs.s_uf.uf 
+      this.$refs.ac_bairro.cidade = this.$refs.ac_cidade.cidade
     },
 
     buscar_cep() {
@@ -84,12 +63,6 @@ var vm = new Vue({
       this.iendereco    = []
       this.endereco     = null
     }
-  },
-
-  created() {
-    this.$http.post("/estado/todos").then((res) => {
-        this.iuf = res.body
-    })  
   },
 });
 
