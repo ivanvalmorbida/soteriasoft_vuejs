@@ -29,8 +29,7 @@
                         <ac_bairro ref="ac_bairro"></ac_bairro>
                     </v-flex>
                     <v-flex d-flex="" xs12="" sm7="" md7="">
-                        <v-autocomplete :loading="lendereco" :items="iendereco" item-text="nome" item-value="codigo"
-                            :search-input.sync="sendereco" v-model="endereco" label="Endereço"></v-autocomplete>
+                        <ac_endereco ref="ac_endereco"></ac_endereco>
                     </v-flex>
                 </v-layout>
                 <v-layout row="" wrap="">
@@ -43,7 +42,7 @@
                 <v-btn @click="limpar(true)">
                     <v-icon left dark>note_add</v-icon>Novo
                 </v-btn>
-                <v-btn color="success">
+                <v-btn @click="gravar()" color="success">
                     <v-icon left dark>cloud_upload</v-icon>Gravar
                 </v-btn>
                 <v-dialog v-model="dialog" persistent="" width="500"><template v-slot:activator="{ on }">

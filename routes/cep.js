@@ -60,11 +60,12 @@ function gravar(req, res) {
         })
       }   
       else {
-        connection.query('update tb_cep set estado=?, cidade=?, bairro=?, endereco=?,'+
-        'complemento=? where cep=?', [data.estado, data.cidade, data.bairro, data.endereco, 
-        data.complemento, data.cep], function(err, rows) {
-          if (!err)
-            res.json({dados: rows})      
+        //connection.query('update tb_cep set estado=?, cidade=?, bairro=?, endereco=?,'+
+        //'complemento=? where cep=?', [data.estado, data.cidade, data.bairro, data.endereco, 
+        //data.complemento, data.cep], function(err, rows) {
+
+          connection.query('UPDATE tb_cep SET estado = ?, cidade = ? WHERE cep = ?', [0, 9, ''], function (error, results, fields) {
+          if (error) throw error;    
           else
             console.log('Error mensage: '+err)
         })

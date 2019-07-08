@@ -1,6 +1,7 @@
-import ac_cidade from "./components/ac_cidade.js"
 import s_uf from "./components/s_uf.js"
+import ac_cidade from "./components/ac_cidade.js"
 import ac_bairro from "./components/ac_bairro.js"
+import ac_endereco from "./components/ac_endereco.js"
 
 var vm = new Vue({
   el: '#app',
@@ -16,34 +17,35 @@ var vm = new Vue({
     s_uf,
     ac_cidade,
     ac_bairro,
-  },
-
-  watch: {
- 
+    ac_endereco,
   },
 
   methods: {
     uf_change() {
-      this.$refs.ac_cidade.uf = this.$refs.s_uf.uf 
+      this.$refs.ac_cidade.uf = this.$refs.s_uf.uf
+      this.$refs.ac_bairro.uf = this.$refs.s_uf.uf 
+      this.$refs.ac_endereco.uf = this.$refs.s_uf.uf 
     },
     
     cidade_change() {
       this.$refs.ac_bairro.uf = this.$refs.s_uf.uf 
       this.$refs.ac_bairro.cidade = this.$refs.ac_cidade.cidade
+      this.$refs.ac_endereco.uf = this.$refs.s_uf.uf 
+      this.$refs.ac_endereco.cidade = this.$refs.ac_cidade.cidade
     },
 
     buscar_cep() {
       if (this.cep.length==8){
         this.$http.post('/cep/cep', {cep: this.cep}).then((res) => {
           if (res.body.length>0){
-            this.complemento  = res.body[0].complemento
-            this.uf           = res.body[0].estado
-            this.$refs.ac_cidade.icidade      = {codigo: res.body[0].cidade, nome: res.body[0].cidade_}
+            this.complemento                  = res.body[0].complemento
+            this.$refs.s_uf.uf                = res.body[0].estado
+            this.$refs.ac_cidade.icidade      = [{codigo: res.body[0].cidade, nome: res.body[0].cidade_}]
             this.$refs.ac_cidade.cidade       = res.body[0].cidade      
-            this.ibairro      = {codigo: res.body[0].bairro, nome: res.body[0].bairro_}
-            this.bairro       = res.body[0].bairro
-            this.iendereco    = {codigo: res.body[0].endereco, nome: res.body[0].endereco_}
-            this.endereco     = res.body[0].endereco
+            this.$refs.ac_bairro.ibairro      = [{codigo: res.body[0].bairro, nome: res.body[0].bairro_}]
+            this.$refs.ac_bairro.bairro       = res.body[0].bairro
+            this.$refs.ac_endereco.iendereco  = [{codigo: res.body[0].endereco, nome: res.body[0].endereco_}]
+            this.$refs.ac_endereco.endereco   = res.body[0].endereco
           }
           else{
             this.limpar(false)
@@ -54,21 +56,37 @@ var vm = new Vue({
 
     limpar(cep) {
       if (cep==true){this.cep = null}
-      this.complemento  = null
-      this.uf           = null
+      this.complemento                  = null
+      this.$refs.s_uf.uf                = null
       this.$refs.ac_cidade.icidade      = []
       this.$refs.ac_cidade.cidade       = null
-      this.ibairro      = []
-      this.bairro       = null
-      this.iendereco    = []
-      this.endereco     = null
-    }
+      this.$refs.ac_bairro.ibairro      = []
+      this.$refs.ac_bairro.bairro       = null
+      this.$refs.ac_endereco.iendereco  = []
+      this.$refs.ac_endereco.endereco   = null
+    },
+
+    gravar() {
+      var estado=0
+      var cidade=0
+      var bairro=0
+      var endereco=0
+
+      if(this.$refs.s_uf.uf!=null) {estado=this.$refs.s_uf.uf}
+      if(this.$refs.ac_cidade.cidade!=null) {cidade=this.$refs.ac_cidade.cidade}
+      if(this.$refs.ac_bairro.bairro!=null) {bairro=this.$refs.ac_bairro.bairro}
+      if(this.$refs.ac_endereco.endereco!=null) {endereco=this.$refs.ac_endereco.endereco}
+      if(this.complemento==null) {this.complemento=""}
+
+      this.$http.post('/cep/gravar',{cep: this.cep, estado: estado, cidade: cidade, 
+      bairro: bairro, endereco: endereco, complemento: this.complemento}).then((res) => {
+
+      })
+    },
   },
 });
 
-
 /*
-
 angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
 .controller('Soteriasoft.Control', function($http,$scope, $mdDialog) {
   function format(mask, number) {
@@ -77,23 +95,6 @@ angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
       r += mask.charAt(im)=='#' ? s.charAt(is++) : mask.charAt(im)
     }
     return r
-  }
-
-  $scope.Gravar = function() {
-    if($scope.estado==null){estado=0} else{estado=$scope.estado.codigo}
-    if($scope.cidade==null){cidade=0} else{cidade=$scope.cidade.codigo}
-    if($scope.bairro==null){bairro=0} else{bairro=$scope.bairro.codigo}
-    if($scope.endereco==null){endereco=0} else{endereco=$scope.endereco.codigo}
-    
-    $http.post('/cep/gravar', {cep: $scope.cep, estado: estado, cidade: cidade, 
-      bairro: bairro, endereco: endereco, complemento: $scope.complemento}).
-    success(function (data, status, headers, config) {
-      if (data.dados.length>0){
-        ShowSnackBar('Informações salvas com sucesso!')
-      }
-    }).error(function (data, status, headers, config) {
-      //
-    })  
   }
 
   $scope.Localizar = function(ev) {
@@ -117,29 +118,6 @@ angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
   function LocalizarController($scope, $mdDialog, EstadoSigla) {
     $scope.EstadoSigla = EstadoSigla
 
-    $scope.CidadeEstadoNome = function(StrSearch) {
-      return $http.get('/cidade/cidade_estado_nome', {
-      params: {
-        txt: StrSearch,
-        est: $scope.l_estado.codigo
-      }
-      }).then(function(data) {
-        return data.data
-      })
-    }
-
-    $scope.EnderecoCidadeNome = function(StrSearch) {
-      return $http.get('/endereco/endereco_cidade_nome', {
-      params: {
-        txt: StrSearch,
-        est: $scope.l_estado.codigo,
-        cid: $scope.l_cidade.codigo
-      }
-      }).then(function(data) {
-        return data.data
-      })
-    }  
-     
     $scope.Cancel = function() {
       $mdDialog.cancel()
     }
@@ -190,56 +168,6 @@ angular.module('Soteriasoft', ['ngMaterial', 'Soteriasoft.Comum'])
     $scope.Efetivar = function(answer) {
       $mdDialog.hide(answer)
     }
-  }
-
-  $scope.EstadoNome = function(StrSearch) {
-    return $http.get('/estado/estado_nome', {
-    params: {
-      txt: StrSearch
-    }
-    }).then(function(data) {
-      return data.data
-    })
-  }
-
-  $scope.EstadoSigla = function(StrSearch) {
-    return $http.get('/estado/estado_sigla', {
-    params: {
-      txt: StrSearch
-    }
-    }).then(function(data) {
-      return data.data
-    })
-  }
-  
-  $scope.CidadeNome = function(StrSearch) {
-    return $http.get('/cidade/cidade_nome', {
-    params: {
-      txt: StrSearch
-    }
-    }).then(function(data) {
-      return data.data
-    })
-  }
-  
-  $scope.BairroNome = function(StrSearch) {
-    return $http.get('/bairro/bairro_nome', {
-    params: {
-      txt: StrSearch
-    }
-    }).then(function(data) {
-      return data.data
-    })
-  }
-
-  $scope.EnderecoNome = function(StrSearch) {
-    return $http.get('/endereco/endereco_nome', {
-    params: {
-      txt: StrSearch
-    }
-    }).then(function(data) {
-      return data.data
-    })
   }
   $scope.Limpar()
 })*/

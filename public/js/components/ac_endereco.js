@@ -21,14 +21,14 @@ export default {
     },  
       
     methods: {
-        qendereco(v) {
-            if (v.length > 2 && this.cidade>0) {
-              this.lendereco = true
-              this.$http.post("/endereco/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
-                this.lendereco = false
-                this.iendereco = res.body
-              })
-            }
-          },
+      qendereco(v) {
+        if (v.length > 2 && this.cidade>0) {
+          this.lendereco = true
+          this.$http.post("/endereco/cidade_nome", {'est': this.uf, 'cid': this.cidade, 'str': v}).then((res) => {
+            this.lendereco = false
+            this.iendereco = res.body
+          })
+        }
+      },
     }
   }
