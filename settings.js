@@ -2,7 +2,7 @@ exports.dbConect = {
     host     : 'localhost',
     database : 'soteriasoft',
     user     : 'ivan',
-    password : 'Ivanluis1#'
+    password : 'ivanluis'
 }
 
 var url = "http://localhost"
@@ -32,4 +32,7 @@ exports.httpMsgsFormat = "HTML"
 // avaliaçoes
 // agenda
 // imovel / anuncios / proximidade
+
 // sudo mysql -u root -pi -h localhost soteriasoft < soteriasoft.sql
+
+// olx, zap, vivareal, imovelweb
