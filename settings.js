@@ -32,3 +32,4 @@ exports.httpMsgsFormat = "HTML"
 // avaliaçoes
 // agenda
 // imovel / anuncios / proximidade
+// sudo mysql -u root -pi -h localhost soteriasoft < soteriasoft.sql
